@@ -6,25 +6,15 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.network.OtherClientPlayerEntity;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registries;
 
-import java.util.ArrayList;
-
 public class EatingAnimationClientMod implements ClientModInitializer {
-
-    private static final ArrayList<Item> FOOD_ITEMS = new ArrayList<>(Registries.ITEM.stream().filter(
-            p -> p.getDefaultStack().getComponents().contains(DataComponentTypes.FOOD)).toList());
-   static {
-       FOOD_ITEMS.add(Items.MILK_BUCKET);
-   }
 
     @Override
     public void onInitializeClient() {
-        for (Item item : FOOD_ITEMS) {
+        for (Item item : Registries.ITEM) {
             ModelPredicateProviderRegistry.register(item, Identifier.of("eat"), (itemStack, clientWorld, livingEntity, i) -> {
                 if (livingEntity == null) {
                     return 0.0F;
